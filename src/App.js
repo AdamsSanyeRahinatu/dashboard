@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from "react";
+import { Redirect, Route, Switch } from "react-router";
+import { UserContext } from "./context/UsersContext";
+import LoginScreen from "./pages/LoginScreen";
+import IncomePage from "./pages/IcomePage"
+import RegisterUserScreen from "./pages/RegisterUserScreen";
+import Dashboard from "./pages/Dashboard";
 
-function App() {
+const App = () => {
+  const { user } = useContext(UserContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route path="/" exact>
+        {user ? <Redirect to="/login"/>:<Redirect to="/dashboard"/> }
+      </Route>
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/register" component={RegisterUserScreen} />
+      <Route path="/login" component={LoginScreen} />
+      <Route path="/income" component={IncomePage} />
+      <Route path="/expenses" component={ExpensePage} />
+
+      
+    </Switch>
   );
-}
+};
 
 export default App;
